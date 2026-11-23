@@ -4,13 +4,17 @@ Projeto web da turma **BSI_DevWeb 2026/2**, desenvolvido com **CodeIgniter 4**.
 
 **Integrantes:** Apoema Fernandes, Eduarda Coelho, João Pedro, Matheus Abdon e Arthur Miguel.
 
-## Divisão de responsabilidades
+## 👥 Integrantes
 
-- **Eduarda Coelho:** estrutura inicial do projeto, desenvolvimento do módulo de Categorias e criação do repositório no GitHub.
-- **Apoema Fernandes:** desenvolvimento do CRUD de Produtos.
-- **João Pedro:** desenvolvimento do CRUD de Fornecedores.
-- **Matheus Abdon:** desenvolvimento do CRUD de Clientes.
-- **Arthur Miguel:** posteriormente, desenvolvimento do Login e gerenciamento de perfis (RF01).
+| Apoema Fernandes | 
+| Eduarda Coelho | 
+| João Pedro| 
+| Matheus Abdon | 
+| Arthur Miguel | 
+| Ítalo Cardoso | 
+| Lucas Ventorim |
+
+**Turma:** BSI_DevWeb 2026/2
 
 ## Tecnologias
 
