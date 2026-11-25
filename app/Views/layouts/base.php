@@ -20,10 +20,17 @@
                 <ul class="navbar-nav me-auto">
                     <?php
                     $itensMenu = [
-                        'categorias'   => 'Categorias',
-                        'produtos'     => 'Produtos',
-                        'fornecedores' => 'Fornecedores',
-                        'clientes'     => 'Clientes',
+                        'categorias'            => 'Categorias',
+                        'produtos'              => 'Produtos',
+                        'fornecedores'          => 'Fornecedores',
+                        'clientes'              => 'Clientes',
+                        'lojas'                 => 'Lojas',
+                        'franquias'             => 'Franquias',
+                        'estoque-lojas'         => 'Estoque por loja',
+                        'estoque-movimentacoes' => 'Movimentações',
+                        'venda-produtos'        => 'Vendas',
+                        'unidades'              => 'Unidades',
+                        'cliente-unidades'      => 'Clientes × Unidades',
                     ];
                     ?>
                     <?php foreach ($itensMenu as $caminho => $rotulo): ?>

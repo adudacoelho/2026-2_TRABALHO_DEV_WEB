@@ -26,8 +26,8 @@
                     <div class="row">
                         <div class="col-12 col-sm-6 mb-3">
                             <label for="cnpj" class="form-label">CNPJ *</label>
-                            <input type="text" id="cnpj" name="cnpj" class="form-control" maxlength="18"
-                                   placeholder="00.000.000/0000-00" inputmode="numeric"
+                            <input type="text" id="cnpj" name="cnpj" class="form-control text-uppercase" maxlength="18"
+                                   placeholder="00.000.000/0000-00" autocapitalize="characters" spellcheck="false"
                                    value="<?= esc(old('cnpj', formatar_cnpj($fornecedor['cnpj']))) ?>" required>
                         </div>
                         <div class="col-12 col-sm-6 mb-3">

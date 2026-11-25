@@ -17,16 +17,30 @@ class ClienteSeeder extends Seeder
 
         $model->insert([
             'nome'     => 'Camila Souza',
-            'cpf'      => '52998224725',
+            'cpf'      => '03544978474',
             'telefone' => '27999991111',
             'email'    => 'camila@example.com',
-            'unidade'  => 'Apto 302',
         ]);
 
         $model->insert([
-            'nome'    => 'Rafael Lima',
-            'cpf'     => '11144477735',
-            'unidade' => 'Apto 101',
+            'nome' => 'Rafael Lima',
+            'cpf'  => '00882570706',
+            'telefone' => '27999992222',
+            'email'    => 'rafael@exemplo.com',
+        ]);
+
+         $model->insert([
+            'nome' => 'Fox Mulder',
+            'cpf'  => '64005953921',
+            'telefone' => '27999953222',
+            'email'    => 'fox.mulder@fbi.com',
+        ]);
+
+         $model->insert([
+            'nome' => 'Dana Scully',
+            'cpf'  => '49428340316',
+            'telefone' => '27999497222',
+            'email'    => 'dana.scully@fbi.com',
         ]);
     }
 }

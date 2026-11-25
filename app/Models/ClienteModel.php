@@ -9,16 +9,15 @@ class ClienteModel extends Model
     protected $table         = 'clientes';
     protected $primaryKey    = 'id';
     protected $returnType    = 'array';
-    protected $allowedFields = ['nome', 'cpf', 'telefone', 'email', 'unidade'];
+    protected $allowedFields = ['nome', 'cpf', 'telefone', 'email'];
     protected $useTimestamps = true;
 
     protected $validationRules = [
         'id'       => 'permit_empty|is_natural_no_zero',
         'nome'     => 'required|min_length[2]|max_length[150]',
-        'cpf'      => 'required|numeric|exact_length[11]|is_unique[clientes.cpf,id,{id}]',
+        'cpf'      => 'required|numeric|exact_length[11]|cpf_valido|is_unique[clientes.cpf,id,{id}]',
         'telefone' => 'permit_empty|numeric|min_length[10]|max_length[11]',
         'email'    => 'permit_empty|valid_email|max_length[150]',
-        'unidade'  => 'required|max_length[30]',
     ];
 
     protected $validationMessages = [
@@ -42,30 +41,40 @@ class ClienteModel extends Model
             'valid_email' => 'Informe um e-mail válido.',
             'max_length'  => 'O e-mail deve ter no máximo 150 caracteres.',
         ],
-        'unidade' => [
-            'required'   => 'Informe a unidade (por exemplo, Apto 302).',
-            'max_length' => 'A unidade deve ter no máximo 30 caracteres.',
-        ],
     ];
 
     /**
-     * Lista os clientes em ordem alfabética, com busca opcional por nome, unidade ou CPF.
+     * Lista os clientes em ordem alfabética, com as unidades associadas e busca opcional.
      */
     public function listar(?string $busca = null): array
     {
+        $this->select("clientes.*, GROUP_CONCAT(unidades.identificador, ', ') AS unidades_nome")
+            ->join('cliente_unidades', 'cliente_unidades.cliente_id = clientes.id', 'left')
+            ->join('unidades', 'unidades.id = cliente_unidades.unidade_id', 'left')
+            ->groupBy('clientes.id');
+
         if ($busca !== null && $busca !== '') {
             $this->groupStart()
-                ->like('nome', $busca)
-                ->orLike('unidade', $busca);
+                ->like('clientes.nome', $busca)
+                ->orLike('unidades.identificador', $busca);
 
             // Só procura no CPF se o texto digitado parece um CPF (números, pontos e traço).
             if (preg_match('/^[\d.\-\s]+$/', $busca)) {
-                $this->orLike('cpf', preg_replace('/\D/', '', $busca));
+                $this->orLike('clientes.cpf', preg_replace('/\D/', '', $busca));
             }
 
             $this->groupEnd();
         }
 
-        return $this->orderBy('nome', 'ASC')->findAll();
+        return $this->orderBy('clientes.nome', 'ASC')->findAll();
+    }
+
+    /**
+     * Indica se o cliente já possui vínculos com unidades ou vendas.
+     */
+    public function possuiDependencias(int $id): bool
+    {
+        return $this->db->table('cliente_unidades')->where('cliente_id', $id)->countAllResults() > 0
+            || $this->db->table('venda_produtos')->where('cliente_id', $id)->countAllResults() > 0;
     }
 }

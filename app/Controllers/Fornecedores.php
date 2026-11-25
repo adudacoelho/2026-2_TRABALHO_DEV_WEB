@@ -93,7 +93,7 @@ class Fornecedores extends BaseController
         return [
             'nome'      => trim((string) $this->request->getPost('nome')),
             'descricao' => trim((string) $this->request->getPost('descricao')),
-            'cnpj'      => somente_numeros($this->request->getPost('cnpj')),
+            'cnpj'      => normalizar_cnpj($this->request->getPost('cnpj')),
             'telefone'  => somente_numeros($this->request->getPost('telefone')),
             'endereco'  => trim((string) $this->request->getPost('endereco')),
             'email'     => trim((string) $this->request->getPost('email')),

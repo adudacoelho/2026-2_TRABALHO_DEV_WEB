@@ -23,17 +23,15 @@
                                value="<?= esc(old('descricao', $produto['descricao'])) ?>">
                     </div>
 
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <label for="preco" class="form-label">Preço (R$) *</label>
-                            <input type="number" id="preco" name="preco" class="form-control" step="0.01" min="0.01"
-                                   value="<?= esc(old('preco', $produto['preco'])) ?>" required>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <label for="quantidade" class="form-label">Quantidade *</label>
-                            <input type="number" id="quantidade" name="quantidade" class="form-control" step="1" min="0"
-                                   value="<?= esc(old('quantidade', $produto['quantidade'])) ?>" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="preco" class="form-label">Preço (R$) *</label>
+                        <input type="number" id="preco" name="preco" class="form-control" step="0.01" min="0.01"
+                               value="<?= esc(old('preco', $produto['preco'])) ?>" required>
+                    </div>
+
+                    <div class="alert alert-info small mb-3">
+                        O estoque é controlado por loja. Cadastre ou ajuste as quantidades em
+                        <a href="<?= site_url('estoque-lojas') ?>" class="alert-link">Estoque por loja</a>.
                     </div>
 
                     <div class="mb-3">

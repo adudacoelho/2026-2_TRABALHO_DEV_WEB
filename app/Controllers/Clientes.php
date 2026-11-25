@@ -30,7 +30,7 @@ class Clientes extends BaseController
         return view('clientes/form', [
             'titulo'  => 'Novo cliente',
             'acao'    => site_url('clientes/salvar'),
-            'cliente' => ['nome' => '', 'cpf' => '', 'telefone' => '', 'email' => '', 'unidade' => ''],
+            'cliente' => ['nome' => '', 'cpf' => '', 'telefone' => '', 'email' => ''],
         ]);
     }
 
@@ -80,6 +80,12 @@ class Clientes extends BaseController
             return redirect()->to('clientes')->with('erros', ['Cliente não encontrado.']);
         }
 
+        if ($this->clienteModel->possuiDependencias($id)) {
+            return redirect()->to('clientes')->with('erros', [
+                'Não é possível excluir: existem unidades vinculadas ou vendas deste cliente. Remova-as primeiro.',
+            ]);
+        }
+
         $this->clienteModel->delete($id);
 
         return redirect()->to('clientes')->with('sucesso', 'Cliente excluído com sucesso.');
@@ -95,7 +101,6 @@ class Clientes extends BaseController
             'cpf'      => somente_numeros($this->request->getPost('cpf')),
             'telefone' => somente_numeros($this->request->getPost('telefone')),
             'email'    => trim((string) $this->request->getPost('email')),
-            'unidade'  => trim((string) $this->request->getPost('unidade')),
         ];
     }
 }

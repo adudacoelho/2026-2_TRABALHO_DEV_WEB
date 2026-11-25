@@ -25,7 +25,7 @@
                     <th scope="col">Nome</th>
                     <th scope="col">Categoria</th>
                     <th scope="col" class="text-end">Preço</th>
-                    <th scope="col" class="text-end">Estoque</th>
+                    <th scope="col" class="text-end">Estoque total</th>
                     <th scope="col" class="text-end">Ações</th>
                 </tr>
             </thead>
@@ -47,15 +47,21 @@
                         <td><?= esc($produto['categoria_nome'] ?? 'Sem categoria') ?></td>
                         <td class="text-end"><?= esc(number_to_currency((float) $produto['preco'], 'BRL', 'pt_BR', 2)) ?></td>
                         <td class="text-end">
-                            <?php if ((int) $produto['quantidade'] === 0): ?>
+                            <?php $estoqueTotal = (int) ($produto['quantidade_total'] ?? 0); ?>
+                            <?php if ($estoqueTotal < 0): ?>
+                                <span class="badge text-bg-danger">Negativo: <?= esc($estoqueTotal) ?></span>
+                            <?php elseif ($estoqueTotal === 0): ?>
                                 <span class="badge text-bg-danger">Esgotado</span>
                             <?php else: ?>
-                                <?= esc($produto['quantidade']) ?>
+                                <?= esc($estoqueTotal) ?>
                             <?php endif; ?>
                         </td>
                         <td class="text-end text-nowrap">
                             <a href="<?= site_url('produtos/editar/' . $produto['id']) ?>"
                                class="btn btn-sm btn-outline-primary">Editar</a>
+
+                            <a href="<?= esc(site_url('estoque-lojas') . '?busca=' . urlencode($produto['nome'])) ?>"
+                               class="btn btn-sm btn-outline-info">Ver por loja</a>
 
                             <form method="post" action="<?= site_url('produtos/excluir/' . $produto['id']) ?>"
                                   class="d-inline"

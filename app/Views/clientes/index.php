@@ -23,7 +23,7 @@
             <thead class="table-light">
                 <tr>
                     <th scope="col">Nome</th>
-                    <th scope="col">Unidade</th>
+                    <th scope="col">Unidades</th>
                     <th scope="col">CPF</th>
                     <th scope="col">Telefone</th>
                     <th scope="col" class="text-end">Ações</th>
@@ -39,7 +39,7 @@
                 <?php foreach ($clientes as $cliente): ?>
                     <tr>
                         <td><?= esc($cliente['nome']) ?></td>
-                        <td><?= esc($cliente['unidade']) ?></td>
+                        <td><?= esc($cliente['unidades_nome'] ?? '—') ?></td>
                         <td class="text-nowrap"><?= esc(formatar_cpf($cliente['cpf'])) ?></td>
                         <td class="text-nowrap"><?= esc(formatar_telefone($cliente['telefone'])) ?></td>
                         <td class="text-end text-nowrap">

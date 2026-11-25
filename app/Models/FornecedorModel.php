@@ -16,7 +16,7 @@ class FornecedorModel extends Model
         'id'        => 'permit_empty|is_natural_no_zero',
         'nome'      => 'required|min_length[2]|max_length[150]',
         'descricao' => 'permit_empty|max_length[255]',
-        'cnpj'      => 'required|numeric|exact_length[14]|is_unique[fornecedores.cnpj,id,{id}]',
+        'cnpj'      => 'required|exact_length[14]|alpha_numeric|cnpj_valido|is_unique[fornecedores.cnpj,id,{id}]',
         'telefone'  => 'permit_empty|numeric|min_length[10]|max_length[11]',
         'endereco'  => 'permit_empty|max_length[255]',
         'email'     => 'permit_empty|valid_email|max_length[150]',
@@ -32,10 +32,10 @@ class FornecedorModel extends Model
             'max_length' => 'A descrição deve ter no máximo 255 caracteres.',
         ],
         'cnpj' => [
-            'required'     => 'Informe o CNPJ.',
-            'numeric'      => 'O CNPJ deve conter apenas números.',
-            'exact_length' => 'O CNPJ deve ter 14 números.',
-            'is_unique'    => 'Já existe um fornecedor com esse CNPJ.',
+            'required'      => 'Informe o CNPJ.',
+            'exact_length'  => 'O CNPJ deve ter 14 caracteres.',
+            'alpha_numeric' => 'O CNPJ deve conter apenas letras e números.',
+            'is_unique'     => 'Já existe um fornecedor com esse CNPJ.',
         ],
         'telefone' => [
             'numeric'    => 'O telefone deve conter apenas números.',
@@ -59,9 +59,10 @@ class FornecedorModel extends Model
         if ($busca !== null && $busca !== '') {
             $this->groupStart()->like('nome', $busca);
 
-            // Só procura no CNPJ se o texto digitado parece um CNPJ (números, pontos, barra e traço).
-            if (preg_match('/^[\d.\-\/\s]+$/', $busca)) {
-                $this->orLike('cnpj', preg_replace('/\D/', '', $busca));
+            // Só procura no CNPJ se o texto digitado parece um CNPJ
+            // (números, letras, pontos, barra e traço).
+            if (preg_match('/^[\dA-Za-z.\-\/\s]+$/', $busca) === 1) {
+                $this->orLike('cnpj', normalizar_cnpj($busca));
             }
 
             $this->groupEnd();

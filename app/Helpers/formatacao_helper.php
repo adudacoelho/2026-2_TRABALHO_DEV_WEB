@@ -2,7 +2,7 @@
 
 /**
  * Funções de formatação usadas nas Views e nos Controllers.
- * Os dados ficam salvos só com números no banco e são formatados na tela.
+ * Os dados ficam salvos sem pontuação no banco e são formatados na tela.
  */
 
 if (! function_exists('somente_numeros')) {
@@ -12,12 +12,23 @@ if (! function_exists('somente_numeros')) {
     }
 }
 
+if (! function_exists('normalizar_cnpj')) {
+    /**
+     * Deixa o CNPJ no formato armazenado: sem pontuação e com letras maiúsculas.
+     * Vale para o formato antigo (só números) e para o alfanumérico.
+     */
+    function normalizar_cnpj(?string $cnpj): string
+    {
+        return preg_replace('/[^A-Z0-9]/', '', strtoupper((string) $cnpj));
+    }
+}
+
 if (! function_exists('formatar_cnpj')) {
     function formatar_cnpj(?string $cnpj): string
     {
-        $n = somente_numeros($cnpj);
+        $n = normalizar_cnpj($cnpj);
 
-        if (strlen($n) !== 14) {
+        if (preg_match('/^[A-Z0-9]{12}\d{2}$/', $n) !== 1) {
             return (string) $cnpj;
         }
 
